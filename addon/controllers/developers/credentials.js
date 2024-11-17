@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import {action} from '@ember/object';
+import {inject as service} from '@ember/service';
 
 export default class DevelopersCredentialsController extends Controller {
     @service modalsManager;
@@ -15,7 +15,7 @@ export default class DevelopersCredentialsController extends Controller {
             width: '15%',
         },
         {
-            label: 'Fleetbase Token',
+            label: 'Rapide Token',
             valuePath: 'token',
             cellComponent: 'click-to-copy',
             width: '20%',
@@ -64,11 +64,11 @@ export default class DevelopersCredentialsController extends Controller {
         this.modalsManager.confirm({
             title: 'Delete extension registry credentials?',
             body: 'Are you sure you wish to delete these credentials? Once deleted any service or user using these credentials will loose access to the registry.',
-            confirm: async (modal) => {
+            confirm: async modal => {
                 modal.startLoading();
 
                 try {
-                    await this.fetch.delete(`auth/registry-tokens/${credentials.uuid}`, {}, { namespace: '~registry/v1' });
+                    await this.fetch.delete(`auth/registry-tokens/${credentials.uuid}`, {}, {namespace: '~registry/v1'});
                     this.notifications.success('Registry credentials deleted.');
                     return this.hostRouter.refresh();
                 } catch (error) {
@@ -84,7 +84,7 @@ export default class DevelopersCredentialsController extends Controller {
             acceptButtonText: 'Create',
             acceptButtonIcon: 'check',
             password: null,
-            confirm: async (modal) => {
+            confirm: async modal => {
                 modal.startLoading();
 
                 const password = modal.getOption('password');
@@ -94,7 +94,7 @@ export default class DevelopersCredentialsController extends Controller {
                 }
 
                 try {
-                    await this.fetch.post('auth/registry-tokens', { password }, { namespace: '~registry/v1' });
+                    await this.fetch.post('auth/registry-tokens', {password}, {namespace: '~registry/v1'});
                     this.notifications.success('Registry credentials created.');
                     return this.hostRouter.refresh();
                 } catch (error) {
